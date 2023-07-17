@@ -1,0 +1,182 @@
+Создать коллекцию students с указанными данными:
+
+use mydatabase
+
+db.createCollection('students_hw')
+
+db.students_hw.insertMany(
+[
+  {
+    "name": "John",
+    "lastname": "Doe",
+    "marks": [4, 3, 5, 4, 5, 3, 4, 4, 3, 5, 2, 5, 4],
+    "subjects": ["Math", "Science", "English", "History"],
+    "class": 2
+  },
+  {
+    "name": "Jane",
+    "lastname": "Smith",
+    "marks": [3, 4, 3, 4, 3, 4, 4, 5, 4, 4, 3],
+    "subjects": ["Math", "Science", "English", "Geography", "Art"],
+    "class": 3
+  },
+  {
+    "name": "David",
+    "lastname": "Johnson",
+    "marks": [5, 5, 4, 5, 5, 5, 4, 3, 4],
+    "subjects": ["Math", "Physics", "Chemistry"],
+    "class": 1
+  },
+  {
+    "name": "Sarah",
+    "lastname": "Williams",
+    "marks": [3, 4, 3, 4, 4, 3, 4, 3, 4, 4, 3],
+    "subjects": ["Math", "Science", "English", "History", "Geography"],
+    "class": 4
+  },
+  {
+    "name": "Michael",
+    "lastname": "Brown",
+    "marks": [2, 3, 4, 3, 4, 3, 4, 4, 4, 3, 4, 3, 4, 3],
+    "subjects": ["Math", "Science", "English"],
+    "class": 2
+  },
+  {
+    "name": "Emily",
+    "lastname": "Davis",
+    "marks": [4, 5, 4, 3, 4, 5, 5, 5, 5, 4, 5],
+    "subjects": ["Math", "Science", "English", "History", "Art"],
+    "class": 3
+  },
+  {
+    "name": "Daniel",
+    "lastname": "Miller",
+    "marks": [3, 3, 4, 4, 3, 4, 3, 4, 4, 3],
+    "subjects": ["Math", "Physics", "Chemistry", "Geography"],
+    "class": 1
+  },
+  {
+    "name": "Olivia",
+    "lastname": "Anderson",
+    "marks": [4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4],
+    "subjects": ["Math", "Science", "English", "History", "Geography"],
+    "class": 4
+  },
+  {
+    "name": "Matthew",
+    "lastname": "Wilson",
+    "marks": [3, 4, 3, 4, 4, 3, 4, 3, 4, 4, 3],
+    "subjects": ["Math", "Science", "English"],
+    "class": 2
+  },
+  {
+    "name": "Ava",
+    "lastname": "Taylor",
+    "marks": [4, 5, 4, 3, 4, 5, 5, 5, 5, 4, 5],
+    "subjects": ["Math", "Science", "English", "History", "Art"],
+    "class": 3
+  },
+  {
+    "name": "James",
+    "lastname": "Lee",
+    "marks": [3, 3, 4, 4, 3, 4, 3, 4, 4, 3],
+    "subjects": ["Math", "Physics", "Chemistry", "Geography"],
+    "class": 1
+  },
+  {
+    "name": "Sophia",
+    "lastname": "Martin",
+    "marks": [4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 4, 3, 4],
+    "subjects": ["Math", "Science", "English", "History", "Geography"],
+    "class": 4
+  },
+  {
+    "name": "Benjamin",
+    "lastname": "Thompson",
+    "marks": [3, 4, 3, 4, 4, 3, 4, 3, 4, 4, 3],
+    "subjects": ["Math", "Science", "English"],
+    "class": 2
+  },
+  {
+    "name": "Isabella",
+    "lastname": "Garcia",
+    "marks": [4, 5, 4, 3, 4, 5, 5, 5, 5, 4, 5],
+    "subjects": ["Math", "Science", "English", "History", "Art"],
+    "class": 3
+  },
+  {
+    "name": "Daniel",
+    "lastname": "Clark",
+    "marks": [3, 3, 4, 4, 3, 4, 3, 4, 4, 3],
+    "subjects": ["Math", "Physics", "Chemistry", "Geography"],
+    "class": 1
+  }
+])
+
+Задачи:
+
+1. Выведите средний балл по всем предметам для каждого студента.
+
+db.students_hw.aggregate([
+  {
+    $addFields: {
+      averageMark: { $avg: "$marks" }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      lastname: 1,
+      averageMark: 1
+    }
+  }
+])
+
+
+2. Получите список студентов, у которых есть оценка ниже 3.
+
+db.students_hw.find({
+  marks: { $lt: 3 }
+})
+
+
+3. Подсчитайте количество студентов в каждом классе.
+
+db.students_hw.aggregate([
+  {
+    $group: {
+      _id: "$class",
+      count: { $sum: 1 }
+    }
+  }
+])
+
+4. Рассчитайте суммарное количество оценок по каждому классу.
+
+db.students_hw.aggregate([
+  {
+    $group: {
+      _id: "$class",
+      totalMarks: { $sum: { $size: "$marks" } }
+    }
+  }
+])
+
+5. Рассчитайте средний балл для каждого студента.
+
+db.students_hw.aggregate([
+  {
+    $addFields: {
+      averageMark: { $avg: "$marks" }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      lastname: 1,
+      averageMark: 1
+    }
+  }
+])
