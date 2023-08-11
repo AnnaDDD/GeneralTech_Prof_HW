@@ -1,0 +1,42 @@
+В рамках БД "соц/сеть" напишите след/запросы:
+
+1) Вывести ко-во заблокированных юзеров
+
+db.users.count(
+{ is_blocked: true }
+)
+
+2) Вывести страны незаблокированных юзеров
+
+db.users.find(
+    { is_blocked: { $ne: true } },
+    { _id: 0, country: 1 }
+);
+
+
+3) Заблокировать юзеров из China
+
+db.users.updateMany(
+  { country: "China" },
+  { $set: { is_blocked: true } }
+)
+
+
+4) Увеличить баланс всех незаблокированных юзеров на 100
+
+db.users.updateMany(
+    { is_blocked: { $ne: true } }, 
+    { $inc: { balance: 100 } }    
+);
+
+
+5) Добавить несколько реакций в коллекцию reactions
+
+
+db.reactions.insertMany([
+    { post_id: 1, author_id: 1, value: 5 },
+    { post_id: 2, author_id: 2, value: 4 },
+    { post_id: 1, author_id: 3, value: 3 }
+]);
+
+
